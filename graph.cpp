@@ -1,14 +1,14 @@
 #include <vector>
 
-template<typename Vertex>
-using Graph = std::vector<Vertex>;
+template<typename VertexBase, typename EdgeBase>
+using Graph = std::vector<Vertex<VertexBase, EdgeBase>>;
 
-template<typename Base, typename Edge>
+template<typename Base, typename EdgeBase>
 class Vertex : public Base {
 public:
 	std::vector<Vertex> successors();
 private:
-	std::vector<Edge> edges;
+	std::vector<EdgeBase> edges;
 };
 
 typename<typename Base>
