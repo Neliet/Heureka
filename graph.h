@@ -37,4 +37,6 @@ struct Graph {
 	const VertexSetType vertices;
 };
 
+#include "graph.hxx"
+
 #endif // GRAPH_H_INCLUDED
