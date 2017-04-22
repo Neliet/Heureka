@@ -15,3 +15,15 @@ template<typename Base, typename EdgeBase>
 auto Vertex<Base, EdgeBase>::successors() -> const std::vector<IteratorType>& {
 	return _successors;
 }
+
+namespace std {
+template<> 
+template<typename Base, typename EdgeBase>
+struct hash<Vertex<Base, EdgeBase>> {
+	typedef Vertex<Base, EdgeBase> argument_type;
+	typedef size_t result_type;
+	result_type operator()(argument_type const& vertex) const {
+		return hash<Base>()(vertex);
+	}
+};
+}

@@ -1,8 +1,7 @@
 #include <unordered_set>
-#include "backwardsChaining.h"
 
 template<typename State, typename Frontier>
-bool backwardsChaining<State, Frontier>::operator()(State initialState) {
+bool backwardsChaining<State, Frontier>::operator()(const State& initialState) {
 	Frontier frontier;
 	frontier.push(initialState);
 
@@ -17,9 +16,9 @@ bool backwardsChaining<State, Frontier>::operator()(State initialState) {
 		}
 
 		for (auto& it : current.successors()) {
-			if (explored.find(it) == explored.end()) {
-				frontier.push(it);
-				explored.insert(it);
+			if (explored.find(*it) == explored.end()) {
+				frontier.push(*it);
+				explored.insert(*it);
 			}
 		}
 	}

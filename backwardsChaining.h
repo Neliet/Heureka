@@ -1,3 +1,6 @@
+#ifndef BACKWARDSCHAINING_H_INCLUDED
+#define BACKWARDSCHAINING_H_INCLUDED
+
 #include <stack>
 #include <queue>
 
@@ -9,7 +12,7 @@
 */
 template<typename State, typename Frontier>
 struct backwardsChaining {
-	bool operator()(State initialState);
+	bool operator()(const State& initialState);
 };
 
 template<typename State>
@@ -18,3 +21,7 @@ template<typename State>
 using depthfirstSearch = backwardsChaining<State, std::stack<State>>;
 template<typename State>
 using dijkstraSearch = backwardsChaining<State, std::priority_queue<State>>;
+
+#include "backwardsChaining.hxx"
+
+#endif
