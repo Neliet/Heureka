@@ -1,3 +1,5 @@
+#include <algorithm>
+
 template<typename Base, typename VertexIterator>
 Edge<Base, VertexIterator>::Edge(Base base, VertexIterator end)
 : Base(base), end(end) {
@@ -26,4 +28,15 @@ struct hash<Vertex<Base, EdgeBase>> {
 		return hash<Base>()(vertex);
 	}
 };
+}
+
+template<typename VertexBase, typename EdgeBase>
+Graph<VertexBase, EdgeBase>::Graph(const VertexSetType& vertices)
+: vertices(vertices) {
+}
+
+template<typename VertexBase, typename EdgeBase>
+auto Graph<VertexBase, EdgeBase>::find(const VertexBaseType& vertex) -> typename VertexSetType::iterator {
+	auto it = std::find(vertices.begin(), vertices.end(), vertex);
+	return it;
 }

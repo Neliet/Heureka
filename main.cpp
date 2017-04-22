@@ -8,7 +8,8 @@ int main()
 {
     Map manhattan = readMap("data/manhattan.txt");
     depthfirstSearch<Map::VertexType> search;
-    search(manhattan.vertices[0]);
 
-	return 1;
+    manhattan.find({0, 2})->isTrue = true;
+
+    return search(*manhattan.find({0, 0}));
 }

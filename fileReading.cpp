@@ -58,5 +58,5 @@ Map readMap(const std::string& filename) {
 		graphVertices.emplace_back(vertices[i], graphEdges);
 	}
 
-	return Map{graphVertices};
+	return Map(graphVertices);
 }

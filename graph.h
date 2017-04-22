@@ -19,7 +19,7 @@ struct Vertex : public Base {
 	Vertex(Base base, const std::vector<EdgeType>& edges);
 
 	auto successors() -> const std::vector<IteratorType>&;
-	
+
 	const EdgeSetType edges;
 	bool isTrue;
 
@@ -36,7 +36,12 @@ struct Graph {
 	using VertexSetType = std::vector<VertexType>;
 	using EdgeSetType = typename VertexType::EdgeSetType;
 
-	const VertexSetType vertices;
+	explicit Graph(const VertexSetType& vertices = VertexSetType());
+
+	auto find(const VertexBaseType& vertex) -> typename VertexSetType::iterator;
+
+private:
+	VertexSetType vertices;
 };
 
 #include "graph.hxx"
