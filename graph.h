@@ -19,7 +19,9 @@ struct Vertex : public Base {
 	Vertex(Base base, const std::vector<EdgeType>& edges);
 
 	auto successors() -> const std::vector<IteratorType>&;
+	
 	const EdgeSetType edges;
+	bool isTrue;
 
 private:
 	std::vector<IteratorType> _successors;

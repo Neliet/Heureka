@@ -11,7 +11,7 @@ bool backwardsChaining(State initialState) {
 	while (!frontier.empty()) {
 		auto current = frontier.top();
 		frontier.pop();
-		if (current.empty()) {
+		if (current.isTrue) {
 			return true;
 		}
 
