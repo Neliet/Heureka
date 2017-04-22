@@ -1,6 +1,5 @@
 #include <stack>
 #include <queue>
-#include <priority_queue>
 
 /*
 	State : liste de goals en logique ou croisement en pathfinding
@@ -9,11 +8,13 @@
 	Pour le pathfinding, State.empty() signifie "point de départ"
 */
 template<typename State, typename Frontier>
-bool backwardsChaining(State initialState);
+struct backwardsChaining {
+	bool operator()(State initialState);
+};
 
 template<typename State>
-using breadthfirstSearch<State> = backwardsChaining<State, std::queue>;
+using breadthfirstSearch = backwardsChaining<State, std::queue<State>>;
 template<typename State>
-using depthfirstSearch<State> = backwardsChaining<State, std::stack>;
+using depthfirstSearch = backwardsChaining<State, std::stack<State>>;
 template<typename State>
-using dijkstraSearch<State> = backwardsChaining<State, std::priority_queue>;
+using dijkstraSearch = backwardsChaining<State, std::priority_queue<State>>;

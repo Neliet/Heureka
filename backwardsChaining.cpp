@@ -1,8 +1,9 @@
 #include <unordered_set>
+#include "backwardsChaining.h"
 
-template<typename State, template<typename> class Frontier>
-bool backwardsChaining(State initialState) {
-	Frontier<State> frontier;
+template<typename State, typename Frontier>
+bool backwardsChaining<State, Frontier>::operator()(State initialState) {
+	Frontier frontier;
 	frontier.push(initialState);
 
 	std::unordered_set<State> explored;
