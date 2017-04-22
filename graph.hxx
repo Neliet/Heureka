@@ -1,4 +1,5 @@
 #include <algorithm>
+#include <iterator>
 
 template<typename Base, typename VertexIterator>
 Edge<Base, VertexIterator>::Edge(Base base, VertexIterator end)
@@ -31,12 +32,20 @@ struct hash<Vertex<Base, EdgeBase>> {
 }
 
 template<typename VertexBase, typename EdgeBase>
-Graph<VertexBase, EdgeBase>::Graph(const VertexSetType& vertices)
-: vertices(vertices) {
+template<typename VertexIt, typename EdgeIt>
+Graph<VertexBase, EdgeBase>::Graph(VertexIt vBegin, VertexIt vEnd, EdgeIt eBegin) {
+	vertices.reserve(std::distance(vBegin, vEnd));
+	for (; vBegin != vEnd; ++vBegin, ++eBegin) {
+		EdgeSetType edges;
+		for (auto& edge : *eBegin) {
+			edges.emplace_back(edge.first, std::next(vertices.begin(), edge.second));
+		}
+		vertices.emplace_back(*vBegin, edges);
+	}
 }
 
 template<typename VertexBase, typename EdgeBase>
-auto Graph<VertexBase, EdgeBase>::find(const VertexBaseType& vertex) -> typename VertexSetType::iterator {
+auto Graph<VertexBase, EdgeBase>::operator[](const VertexBaseType& vertex) -> typename VertexSetType::iterator {
 	auto it = std::find(vertices.begin(), vertices.end(), vertex);
 	return it;
 }

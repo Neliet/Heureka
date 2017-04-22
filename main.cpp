@@ -9,7 +9,7 @@ int main()
     Map manhattan = readMap("data/manhattan.txt");
     depthfirstSearch<Map::VertexType> search;
 
-    manhattan.find({0, 2})->isTrue = true;
+    manhattan[{0, 2}]->isTrue = true;
 
-    return search(*manhattan.find({0, 0}));
+    return search(*manhattan[{0, 0}]);
 }

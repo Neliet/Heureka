@@ -8,7 +8,7 @@
 	State : liste de goals en logique ou croisement en pathfinding
 	Frontier : conteneur de States (pile, file, priority_queue...)
 	initialState est l'arrivée
-	Pour le pathfinding, State.empty() signifie "point de départ"
+	Pour le pathfinding, State.isTrue() signifie "point de départ"
 */
 template<typename State, typename Frontier>
 struct backwardsChaining {

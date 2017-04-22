@@ -36,9 +36,11 @@ struct Graph {
 	using VertexSetType = std::vector<VertexType>;
 	using EdgeSetType = typename VertexType::EdgeSetType;
 
-	explicit Graph(const VertexSetType& vertices = VertexSetType());
+	Graph() = default;
+	template<typename VertexIt, typename EdgeIt>
+	Graph(VertexIt vBegin, VertexIt vEnd, EdgeIt eBegin);
 
-	auto find(const VertexBaseType& vertex) -> typename VertexSetType::iterator;
+	auto operator[](const VertexBaseType& vertex) -> typename VertexSetType::iterator;
 
 private:
 	VertexSetType vertices;
