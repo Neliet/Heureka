@@ -17,8 +17,12 @@ struct Vertex : public Base {
 	using EdgeSetType = std::vector<EdgeType>;
 
 	Vertex(Base base, const std::vector<EdgeType>& edges);
-	std::vector<IteratorType> successors();
+
+	auto successors() -> const std::vector<IteratorType>&;
 	const EdgeSetType edges;
+
+private:
+	std::vector<IteratorType> _successors;
 };
 
 template<typename VertexBase, typename EdgeBase>
@@ -32,16 +36,5 @@ struct Graph {
 
 	const VertexSetType vertices;
 };
-
-
-template<typename Base, typename EdgeBase>
-Vertex<Base, EdgeBase>::Vertex(Base base, const std::vector<EdgeType>& edges)
-: Base(base), edges(edges) {
-}
-
-template<typename Base, typename VertexIterator>
-Edge<Base, VertexIterator>::Edge(Base base, VertexIterator end)
-: Base(base), end(end) {
-}
 
 #endif // GRAPH_H_INCLUDED
