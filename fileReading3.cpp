@@ -14,14 +14,14 @@ Map readMap(const std::string& filename) {
 	std::unordered_set<Map::VertexBaseType> vertexSet;
 
 	while (file) {
-        std::unordered_set<std::string> head;
-        std::unordered_set<std::string> tail;
+        std::unordered_set<std::string> tmp_head;
+        std::unordered_set<std::string> tmp_tail;
 
 		std::string curent;
 		file >> curent;
 		while((curent != "if") && (curent != "\n"))
         {
-            head.insert(curent);
+            tmp_head.insert(curent);
             file >> curent;
         }
         if(curent == "if")
@@ -29,35 +29,55 @@ Map readMap(const std::string& filename) {
             file >> curent;
             while(curent != "\n")
             {
-                tail.insert(curent);
+                tmp_tail.insert(curent);
                 file >> curent;
             }
         }
 
-		vertexSet.insert(Clause{head, tail});
+		vertexSet.insert(Clause{head});
+		vertexSet.insert(Clause{tail});
+		IfRule{Clause{head},Clause{tail}};
+
 	}
 
 	std::vector<Map::VertexBaseType> vertices(vertexSet.begin(), vertexSet.end());
 	using Edge = std::pair<Map::EdgeBaseType, std::vector<Map::VertexBaseType>::difference_type>;
 	std::vector<std::vector<Edge>> edges(vertices.size());
 
-	/*
-	// Deuxième lecture du fichier pour faire les edges (PB:j'arrive pas dutout a voir en quoi concistes les edges ici)
+	// Deuxième lecture du fichier pour faire les edges
 	file.clear();
 	file.seekg(0);
 
 	while (file) {
-		int x1, x2, y1, y2;
-		std::string name;
-		file >> x1 >> y1 >> name >> x2 >> y2;
 
-		auto i1 = std::distance(vertices.begin(), std::find(vertices.begin(), vertices.end(), Crossing{x1, y1}));
-		auto i2 = std::distance(vertices.begin(), std::find(vertices.begin(), vertices.end(), Crossing{x2, y2}));
+        std::unordered_set<std::string> tmp_head;
+        std::unordered_set<std::string> tmp_tail;
 
-		edges[i1].emplace_back(Road{name}, i2);
+		std::string curent;
+		file >> curent;
+		while((curent != "if") && (curent != "\n"))
+        {
+            tmp_head.insert(curent);
+            file >> curent;
+        }
+        if(curent == "if")
+        {
+            file >> curent;
+            while(curent != "\n")
+            {
+                tmp_tail.insert(curent);
+                file >> curent;
+            }
+        }
+
+	}
+
+		auto i1 = std::distance(vertices.begin(), std::find(vertices.begin(), vertices.end(), Clause{head}));
+		auto i2 = std::distance(vertices.begin(), std::find(vertices.begin(), vertices.end(), Clause{tail}));
+
+		edges[i1].emplace_back(IfRule{Clause{head},Clause{tail}}, i2);
 	}
 
 	file.close();
 	return Map(vertices.begin(), vertices.end(), edges.begin());
-	*/
 }

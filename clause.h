@@ -3,9 +3,8 @@
 
 #include <unordered_set>
 
-struct Clause { //A1 or A2... if B1 and B2...
-    const std::unordered_set<std::string> head; //Or
-	const std::unordered_set<std::string> tail; //And
+struct Clause {
+    const std::unordered_set<std::string> clause;
 };
 
 // Custom hash for use in unordered_set

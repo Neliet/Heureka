@@ -8,9 +8,9 @@
 
 #include "graph.h"
 #include "clause.h"
-#include "kb.h"
+#include "ifRule.h"
 
-using Map = Graph<Clause, KB>;
+using Map = Graph<Clause, IfRule>;
 
 Map readMap3(const std::string& filename);
 
