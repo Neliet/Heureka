@@ -36,7 +36,7 @@ struct hash<Vertex<Base, EdgeBase>> {
 	typedef Vertex<Base, EdgeBase> argument_type;
 	typedef size_t result_type;
 	result_type operator()(argument_type const& vertex) const {
-		return hash<Base>()(vertex);
+		return hash<Base>{}(vertex);
 	}
 };
 }
