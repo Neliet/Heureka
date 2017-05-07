@@ -11,18 +11,18 @@ Map readMap(const std::string& filename) {
 		throw std::runtime_error("File failed to open.");
 	}
 
-	std::unordered_set<Map::VertexBaseType> vertexSet;
+	std::unordered_set<Map::VertexBaseType> crossingSet;
 
 	while (file) {
 		int x1, x2, y1, y2;
 		std::string name;
 		file >> x1 >> y1 >> name >> x2 >> y2;
-		vertexSet.insert(Crossing{x1, y1});
+		crossingSet.insert(Crossing{x1, y1});
 	}
 
-	std::vector<Map::VertexBaseType> vertices(vertexSet.begin(), vertexSet.end());
+	std::vector<Map::VertexBaseType> crossings(crossingSet.begin(), crossingSet.end());
 	using Edge = std::pair<Map::EdgeBaseType, std::vector<Map::VertexBaseType>::difference_type>;
-	std::vector<std::vector<Edge>> edges(vertices.size());
+	std::vector<std::vector<Edge>> roads(crossings.size());
 
 	file.clear();
 	file.seekg(0);
@@ -32,15 +32,15 @@ Map readMap(const std::string& filename) {
 		std::string name;
 		file >> x1 >> y1 >> name >> x2 >> y2;
 
-		auto i1 = std::distance(vertices.begin(), std::find(vertices.begin(), vertices.end(), Crossing{x1, y1}));
-		auto i2 = std::distance(vertices.begin(), std::find(vertices.begin(), vertices.end(), Crossing{x2, y2}));
+		auto i1 = std::distance(crossings.begin(), std::find(crossings.begin(), crossings.end(), Crossing{x1, y1}));
+		auto i2 = std::distance(crossings.begin(), std::find(crossings.begin(), crossings.end(), Crossing{x2, y2}));
 
 		double distance = std::hypot(x2-x1,y2-y1);
-		edges[i1].emplace_back(Road{name, distance}, i2);
+		roads[i1].emplace_back(Road{name, distance}, i2);
 	}
 
 	file.close();
-	return Map(vertices.begin(), vertices.end(), edges.begin());
+	return Map(crossings.begin(), crossings.end(), roads.begin());
 }
 
 KnowledgeBase readKnowledgeBase(const std::string& filename) {
@@ -50,73 +50,45 @@ KnowledgeBase readKnowledgeBase(const std::string& filename) {
 		throw std::runtime_error("File failed to open.");
 	}
 
-	std::unordered_set<KnowledgeBase::VertexBaseType> vertexSet;
+	std::unordered_set<KnowledgeBase::VertexBaseType> clauseSet;
 
 	while (file) {
-        std::unordered_set<std::string> tmp_head;
-        std::unordered_set<std::string> tmp_tail;
+		std::string s;
+		std::getline(file, s);
+		auto pos = line.find("if");
 
-		std::string current;
-		file >> current;
-		while((current != "if") && (current != "\n"))
-        {
-            tmp_head.insert(current);
-            file >> current;
-        }
-        if(current == "if")
-        {
-            file >> current;
-            while(current != "\n")
-            {
-                tmp_tail.insert(current);
-                file >> current;
-            }
-        }
-
-		vertexSet.insert(Clause{head});
-		vertexSet.insert(Clause{tail});
-		IfRule{Clause{head},Clause{tail}};
-
+		clauseSet.insert(Clause(s.substr(0, pos)));
+		if (pos != std::string::npos) {
+			clauseSet.insert(Clause(s.substr(pos+2)));
+		}
 	}
 
-	std::vector<KnowledgeBase::VertexBaseType> vertices(vertexSet.begin(), vertexSet.end());
+	std::vector<KnowledgeBase::VertexBaseType> clauses(clauseSet.begin(), clauseSet.end());
+	clauses.push_back(Clause()); // Add the empty clause
 	using Edge = std::pair<KnowledgeBase::EdgeBaseType, std::vector<KnowledgeBase::VertexBaseType>::difference_type>;
-	std::vector<std::vector<Edge>> edges(vertices.size());
+	std::vector<std::vector<Edge>> ifRules(clauses.size());
 
-	// Deuxième lecture du fichier pour faire les edges
 	file.clear();
 	file.seekg(0);
 
 	while (file) {
+		std::string s;
+		std::getline(file, s);
+		auto pos = line.find("if");
 
-        std::unordered_set<std::string> tmp_head;
-        std::unordered_set<std::string> tmp_tail;
+		if (pos != std::string::npos) {
+			clauseSet.insert(Clause(s.substr(pos+2)));
+		}
 
-		std::string curent;
-		file >> curent;
-		while((curent != "if") && (curent != "\n"))
-        {
-            tmp_head.insert(curent);
-            file >> curent;
-        }
-        if(curent == "if")
-        {
-            file >> curent;
-            while(curent != "\n")
-            {
-                tmp_tail.insert(curent);
-                file >> curent;
-            }
-        }
-
-	}
-
-		auto i1 = std::distance(vertices.begin(), std::find(vertices.begin(), vertices.end(), Clause{head}));
-		auto i2 = std::distance(vertices.begin(), std::find(vertices.begin(), vertices.end(), Clause{tail}));
-
-		edges[i1].emplace_back(IfRule{Clause{head},Clause{tail}}, i2);
+		auto i1 = std::distance(clauses.begin(), std::find(clauses.begin(), clauses.end(), Clause(s.substr(0, pos))));
+		if (pos != std::string::npos) {
+			auto i2 = std::distance(clauses.begin(), std::find(clauses.begin(), clauses.end(), Clause(s.substr(pos+2))));
+			ifRules[i1].emplace_back(IfRule(), i2);
+		} else {
+			ifRules[i1].emplace_back(IfRule(), clauses.size()-1);
+		}
 	}
 
 	file.close();
-	return KnowledgeBase(vertices.begin(), vertices.end(), edges.begin());
+	return KnowledgeBase(clauses.begin(), clauses.end(), ifRules.begin());
 }

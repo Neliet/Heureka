@@ -2,24 +2,12 @@
 #define CLAUSE_H_INCLUDED
 
 #include <unordered_set>
+#include <string>
 
-struct Literal {
-	std::string name;
-};
-
-// Custom hash for use in unordered_set
-namespace std {
-template<>
-struct hash<Literal> {
-	typedef Literal argument_type;
-	typedef size_t result_type;
-	result_type operator()(argument_type const& literal) const {
-		return hash<string>{}(literal.name);
-	}
-};
-}
+using Literal = std::string;
 
 struct Clause {
+	Clause(const std::string& s);
 	const std::unordered_set<Literal> literals;
 };
 
