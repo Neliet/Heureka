@@ -9,7 +9,7 @@ Edge<Base, VertexIterator>::Edge(Base base, VertexIterator end)
 
 template<typename Base, typename EdgeBase>
 Vertex<Base, EdgeBase>::Vertex(GraphType& graph, const Base& base, const std::vector<EdgeType>& edges)
-: graph(graph), Base(base), edges(edges) {
+: Base(base), edges(edges), graph(graph) {
 	for (auto& it : edges) {
 		_successors.push_back(it.end);
 	}
@@ -26,14 +26,14 @@ bool Vertex<Base, EdgeBase>::isStart() {
 }
 
 template<typename Base, typename EdgeBase>
-auto Vertex<Base, EdgeBase>::selfIterator() const -> IteratorType {
+auto Vertex<Base, EdgeBase>::selfIterator() -> IteratorType {
 	return graph[*this];
 }
 
 template<typename Base, typename EdgeBase>
-void Vertex<Base, EdgeBase>::setParent(const Vertex& parent) {
-	parent = parent.selfIterator();
-	weight = parent.weight + parent.edgeTo(selfIterator()).weight;
+void Vertex<Base, EdgeBase>::setParent(Vertex v) {
+	parent = v.selfIterator();
+	weight = v.weight + v.edgeTo(selfIterator()).weight;
 }
 
 template<typename Base, typename EdgeBase>

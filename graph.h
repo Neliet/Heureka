@@ -22,22 +22,21 @@ struct Vertex : public Base {
 	using GraphType = Graph<Base, EdgeBase>;
 
 	Vertex(GraphType& graph, const Base& base, const std::vector<EdgeType>& edges);
-	Vertex(const Vertex& other)
-	: edges(other.edges), parent(other.parent), weight(other.weight),
-	_successors(other._successors), graph(other.graph) {}
+	Vertex(const Vertex& other) = default;
 	Vertex& operator=(const Vertex& other) {
-        edges = other.edges;
-        parent = other.parent;
-        weight = other.weight;
-        _successors = other._successors;
-        graph = other.graph;
+		edges = other.edges;
+		parent = other.parent;
+		weight = other.weight;
+		_successors = other._successors;
+		graph = other.graph;
+		return *this;
 	}
 
 	auto successors() -> const std::vector<IteratorType>&;
 	bool isStart();
-	auto selfIterator() const -> IteratorType;
-	void setParent(const Vertex& parent);
-	auto edgeTo(const Vertex& successor) -> const EdgeType&;
+	auto selfIterator() -> IteratorType;
+	void setParent(Vertex v);
+	auto edgeTo(const IteratorType& successor) -> const EdgeType&;
 
 	EdgeSetType edges;
 	IteratorType parent;

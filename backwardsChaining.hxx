@@ -19,7 +19,7 @@ bool backwardsChaining<State, Frontier>::operator()(State& initialState) {
 
 		for (auto& it : current.successors()) {
 			if (explored.find(*it) == explored.end()) {
-				it.setParent(current);
+				it->setParent(current);
 				frontier.push(*it);
 				explored.insert(*it);
 			}
