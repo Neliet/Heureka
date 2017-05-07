@@ -35,7 +35,8 @@ Map readMap(const std::string& filename) {
 		auto i1 = std::distance(vertices.begin(), std::find(vertices.begin(), vertices.end(), Crossing{x1, y1}));
 		auto i2 = std::distance(vertices.begin(), std::find(vertices.begin(), vertices.end(), Crossing{x2, y2}));
 
-		edges[i1].emplace_back(Road{name}, i2);
+		float distance = std::hypot(x2-x1,y2-y1);
+		edges[i1].emplace_back(Road{name, distance}, i2);
 	}
 
 	file.close();

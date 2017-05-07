@@ -6,6 +6,7 @@
 struct Road
 {
     const std::string name;
+    const float distance;
 };
 
 #endif // ROAD_H_INCLUDED
