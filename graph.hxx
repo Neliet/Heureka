@@ -7,7 +7,7 @@ Edge<Base, VertexIterator>::Edge(Base base, VertexIterator end)
 }
 
 template<typename Base, typename EdgeBase>
-Vertex<Base, EdgeBase>::Vertex(GraphType& graph, Base base, const std::vector<EdgeType>& edges)
+Vertex<Base, EdgeBase>::Vertex(GraphType& graph, const Base& base, const std::vector<EdgeType>& edges)
 : graph(graph), Base(base), edges(edges) {
 	for (auto& it : edges) {
 		_successors.push_back(it.end);
