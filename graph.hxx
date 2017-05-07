@@ -7,7 +7,7 @@ Edge<Base, VertexIterator>::Edge(Base base, VertexIterator end)
 }
 
 template<typename Base, typename EdgeBase>
-Vertex<Base, EdgeBase>::Vertex(const Graph& graph, Base base, const std::vector<EdgeType>& edges)
+Vertex<Base, EdgeBase>::Vertex(GraphType& graph, Base base, const std::vector<EdgeType>& edges)
 : graph(graph), Base(base), edges(edges) {
 	for (auto& it : edges) {
 		_successors.push_back(it.end);
@@ -20,12 +20,17 @@ auto Vertex<Base, EdgeBase>::successors() -> const std::vector<IteratorType>& {
 }
 
 template<typename Base, typename EdgeBase>
-auto Vertex<Base, EdgeBase>::selfIterator() -> IteratorType {
+bool Vertex<Base, EdgeBase>::isStart() {
+    return graph.isStart(*this);
+}
+
+template<typename Base, typename EdgeBase>
+auto Vertex<Base, EdgeBase>::selfIterator() const -> IteratorType {
 	return graph[*this];
 }
 
 namespace std {
-template<> 
+template<>
 template<typename Base, typename EdgeBase>
 struct hash<Vertex<Base, EdgeBase>> {
 	typedef Vertex<Base, EdgeBase> argument_type;
@@ -45,7 +50,7 @@ Graph<VertexBase, EdgeBase>::Graph(VertexIt vBegin, VertexIt vEnd, EdgeIt eBegin
 		for (auto& edge : *eBegin) {
 			edges.emplace_back(edge.first, std::next(vertices.begin(), edge.second));
 		}
-		vertices.emplace_back(*vBegin, edges);
+		vertices.emplace_back(*this, *vBegin, edges);
 	}
 }
 
@@ -58,6 +63,11 @@ auto Graph<VertexBase, EdgeBase>::operator[](const VertexBaseType& vertex) -> ty
 template<typename VertexBase, typename EdgeBase>
 void Graph<VertexBase, EdgeBase>::startAt(const VertexBaseType& vertex) {
 	start = std::find(vertices.begin(), vertices.end(), vertex);
+}
+
+template<typename VertexBase, typename EdgeBase>
+bool Graph<VertexBase, EdgeBase>::isStart(const VertexBaseType& vertex) {
+    return start == std::find(vertices.begin(), vertices.end(), vertex);
 }
 
 template<typename VertexBase, typename EdgeBase>

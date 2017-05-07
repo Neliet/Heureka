@@ -9,7 +9,18 @@ int main()
     Map manhattan = readMap("data/manhattan.txt");
     depthfirstSearch<Map::VertexType> search;
 
-    manhattan[{0, 2}]->isTrue = true;
+    manhattan.startAt({0, 2});
 
+    search(*manhattan[{0, 0}]);
+    Path path = manhattan.makePath();
     return search(*manhattan[{0, 0}]);
+
+    /*
+    Map kb = readMap("data/KB1.txt");
+    depthfirstSearch<Map::VertexType> search;
+
+    kb[{a}]->isTrue = true;
+
+    return search(*kb[{}]);
+    */
 }

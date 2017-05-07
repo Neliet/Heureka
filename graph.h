@@ -20,11 +20,11 @@ struct Vertex : public Base {
 	using EdgeSetType = std::vector<EdgeType>;
 	using GraphType = Graph<Base, EdgeBase>;
 
-	Vertex(const GraphType& graph, Base base, const std::vector<EdgeType>& edges);
+	Vertex(GraphType& graph, Base base, const std::vector<EdgeType>& edges);
 
 	auto successors() -> const std::vector<IteratorType>&;
 	bool isStart();
-	auto selfIterator() -> IteratorType;
+	auto selfIterator() const -> IteratorType;
 
 	const EdgeSetType edges;
 	IteratorType parent;
@@ -32,7 +32,7 @@ struct Vertex : public Base {
 
 private:
 	std::vector<IteratorType> _successors;
-	const GraphType& graph;
+	GraphType& graph;
 };
 
 template<typename VertexBase, typename EdgeBase>
@@ -52,6 +52,7 @@ struct Graph {
 
 	auto operator[](const VertexBaseType& vertex) -> VertexIterator;
 	void startAt(const VertexBaseType& vertex);
+	bool isStart(const VertexBaseType& vertex);
 	auto makePath() -> Path;
 
 private:

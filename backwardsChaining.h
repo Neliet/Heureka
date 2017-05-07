@@ -12,7 +12,7 @@
 */
 template<typename State, typename Frontier>
 struct backwardsChaining {
-	bool operator()(const State& initialState);
+	bool operator()(State& initialState);
 };
 
 template<typename State>

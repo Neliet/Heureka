@@ -17,7 +17,7 @@ struct hash<Crossing> {
 	typedef Crossing argument_type;
 	typedef size_t result_type;
 	result_type operator()(argument_type const& crossing) const {
-		return crossing.x ^ (crossing.y << 1);
+		return static_cast<int64_t>(crossing.x) ^ (static_cast<int64_t>(crossing.y) << 1);
 	}
 };
 }

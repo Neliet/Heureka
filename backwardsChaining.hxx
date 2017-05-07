@@ -2,7 +2,7 @@
 #include <unordered_map>
 
 template<typename State, typename Frontier>
-bool backwardsChaining<State, Frontier>::operator()(const State& initialState) {
+bool backwardsChaining<State, Frontier>::operator()(State& initialState) {
 	Frontier frontier;
 	initialState.parent = initialState.selfIterator();
 	frontier.push(initialState);
