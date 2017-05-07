@@ -11,8 +11,18 @@ int main()
 
     manhattan.startAt({0, 2});
 
-    search(*manhattan[{0, 0}]);
-    Path path = manhattan.makePath();
+    search(*manhattan[{1, 5}]);
+    Map::Path path = manhattan.makePath();
+
+    for (auto it = path.begin(); it+1 != path.end(); ++it) {
+        auto next = it+1;
+        auto edge = std::find_if((*next)->edges.begin(), (*next)->edges.end(),
+                     [it](const Map::EdgeType& e) {
+                        return e.end == (*it)->selfIterator();
+                     });
+        std::cout << edge->name;
+    }
+
     return search(*manhattan[{0, 0}]);
 
     /*
