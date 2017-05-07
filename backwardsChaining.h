@@ -12,7 +12,12 @@
 */
 template<typename State, typename Frontier>
 struct backwardsChaining {
-	bool operator()(const State& initialState);
+	using Path = std::vector<State>;
+	auto operator()(const State& initialState) -> Path;
+
+private:
+	using PathTree = std::unordered_map<State, State>;
+	auto makePath(const PathTree& pathTree, const State& start) -> Path;
 };
 
 template<typename State>

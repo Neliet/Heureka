@@ -4,8 +4,8 @@
 #include <functional>
 
 struct Crossing {
-	const int x;
-	const int y;
+	const double x;
+	const double y;
 };
 
 bool operator==(Crossing lhs, Crossing rhs);
