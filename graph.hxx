@@ -7,8 +7,8 @@ Edge<Base, VertexIterator>::Edge(Base base, VertexIterator end)
 }
 
 template<typename Base, typename EdgeBase>
-Vertex<Base, EdgeBase>::Vertex(Base base, const std::vector<EdgeType>& edges)
-: Base(base), edges(edges), isTrue(false) {
+Vertex<Base, EdgeBase>::Vertex(const Graph& graph, Base base, const std::vector<EdgeType>& edges)
+: graph(graph), Base(base), edges(edges) {
 	for (auto& it : edges) {
 		_successors.push_back(it.end);
 	}
@@ -17,6 +17,11 @@ Vertex<Base, EdgeBase>::Vertex(Base base, const std::vector<EdgeType>& edges)
 template<typename Base, typename EdgeBase>
 auto Vertex<Base, EdgeBase>::successors() -> const std::vector<IteratorType>& {
 	return _successors;
+}
+
+template<typename Base, typename EdgeBase>
+auto Vertex<Base, EdgeBase>::selfIterator() -> IteratorType {
+	return graph[*this];
 }
 
 namespace std {
@@ -48,4 +53,20 @@ template<typename VertexBase, typename EdgeBase>
 auto Graph<VertexBase, EdgeBase>::operator[](const VertexBaseType& vertex) -> typename VertexSetType::iterator {
 	auto it = std::find(vertices.begin(), vertices.end(), vertex);
 	return it;
+}
+
+template<typename VertexBase, typename EdgeBase>
+void Graph<VertexBase, EdgeBase>::startAt(const VertexBaseType& vertex) {
+	start = std::find(vertices.begin(), vertices.end(), vertex);
+}
+
+template<typename VertexBase, typename EdgeBase>
+auto Graph<VertexBase, EdgeBase>::makePath() -> Path {
+	Path path{start};
+	auto next = start->parent;
+	while (next != path.back()) {
+		path.push_back(next);
+		next = path.back()->parent;
+	}
+	return path;
 }

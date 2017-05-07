@@ -2,21 +2,10 @@
 #include <unordered_map>
 
 template<typename State, typename Frontier>
-auto backwardsChaining<State, Frontier>::makePath(const PathTree& pathTree, const State& start) -> Path {
-	Path path{start};
-	auto next = pathTree[start];
-	while (next != path.back()) {
-		path.push_back(next);
-		next = pathTree[next];
-	}
-	return path;
-}
-
-template<typename State, typename Frontier>
-auto backwardsChaining<State, Frontier>::operator()(const State& initialState) -> Path {
+bool backwardsChaining<State, Frontier>::operator()(const State& initialState) {
 	Frontier frontier;
+	initialState.parent = initialState.selfIterator();
 	frontier.push(initialState);
-	PathTree pathTree{{initialState, initialState}};
 
 	std::unordered_set<State> explored;
 	explored.insert(initialState);
@@ -24,18 +13,18 @@ auto backwardsChaining<State, Frontier>::operator()(const State& initialState) -
 	while (!frontier.empty()) {
 		auto current = frontier.top();
 		frontier.pop();
-		if (current.isTrue) {
-			return makePath(pathTree, current);
+		if (current.isStart()) {
+			return true;
 		}
 
 		for (auto& it : current.successors()) {
 			if (explored.find(*it) == explored.end()) {
+				it->parent = current.selfIterator();
 				frontier.push(*it);
-				pathTree.emplace(*it, current);
 				explored.insert(*it);
 			}
 		}
 	}
 
-	return {};
+	return false;
 }

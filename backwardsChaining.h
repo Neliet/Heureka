@@ -12,12 +12,7 @@
 */
 template<typename State, typename Frontier>
 struct backwardsChaining {
-	using Path = std::vector<State>;
-	auto operator()(const State& initialState) -> Path;
-
-private:
-	using PathTree = std::unordered_map<State, State>;
-	auto makePath(const PathTree& pathTree, const State& start) -> Path;
+	bool operator()(const State& initialState);
 };
 
 template<typename State>
@@ -26,7 +21,6 @@ template<typename State>
 using depthfirstSearch = backwardsChaining<State, std::stack<State>>;
 template<typename State>
 using dijkstraSearch = backwardsChaining<State, std::priority_queue<State, std::vector<State>, std::greater<State>>>;
-
 
 #include "backwardsChaining.hxx"
 
