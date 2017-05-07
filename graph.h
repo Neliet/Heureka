@@ -23,6 +23,8 @@ struct Vertex : public Base {
 	const EdgeSetType edges;
 	bool isTrue;
 
+	float weight;
+
 private:
 	std::vector<IteratorType> _successors;
 };

@@ -25,7 +25,8 @@ using breadthfirstSearch = backwardsChaining<State, std::queue<State>>;
 template<typename State>
 using depthfirstSearch = backwardsChaining<State, std::stack<State>>;
 template<typename State>
-using dijkstraSearch = backwardsChaining<State, std::priority_queue<State>>;
+using dijkstraSearch = backwardsChaining<State, std::priority_queue<State, std::vector<State>, std::greater<State>>>;
+
 
 #include "backwardsChaining.hxx"
 
