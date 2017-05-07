@@ -7,10 +7,8 @@
 #include <fstream>
 
 #include "graph.h"
-#include "road.h"
-#include "crossing.h"
-#include "clause.h"
-#include "ifRule.h"
+#include "map.h"
+#include "knowledgeBase.h"
 
 using Map = Graph<Crossing, Road>;
 Map readMap(const std::string& filename);

@@ -7,7 +7,8 @@
 template<typename Base, typename VertexIterator>
 struct Edge : public Base {
 	Edge(Base base, VertexIterator end);
-	const VertexIterator end;
+	Edge& operator=(const Edge& other) = default;
+	VertexIterator end;
 };
 
 template<typename VertexBase, typename EdgeBase>
@@ -20,7 +21,17 @@ struct Vertex : public Base {
 	using EdgeSetType = std::vector<EdgeType>;
 	using GraphType = Graph<Base, EdgeBase>;
 
-	Vertex(GraphType& graph, Base base, const std::vector<EdgeType>& edges);
+	Vertex(GraphType& graph, const Base& base, const std::vector<EdgeType>& edges);
+	Vertex(const Vertex& other)
+	: edges(other.edges), parent(other.parent), weight(other.weight),
+	_successors(other._successors), graph(other.graph) {}
+	Vertex& operator=(const Vertex& other) {
+        edges = other.edges;
+        parent = other.parent;
+        weight = other.weight;
+        _successors = other._successors;
+        graph = other.graph;
+	}
 
 	auto successors() -> const std::vector<IteratorType>&;
 	bool isStart();
@@ -28,7 +39,7 @@ struct Vertex : public Base {
 	void setParent(const Vertex& parent);
 	auto edgeTo(const Vertex& successor) -> const EdgeType&;
 
-	const EdgeSetType edges;
+	EdgeSetType edges;
 	IteratorType parent;
 	double weight;
 
@@ -36,6 +47,11 @@ private:
 	std::vector<IteratorType> _successors;
 	GraphType& graph;
 };
+
+template<typename Base, typename EdgeBase>
+bool operator>(const Vertex<Base, EdgeBase> &lhs, const Vertex<Base, EdgeBase> &rhs) {
+    return lhs.weight > rhs.weight;
+}
 
 template<typename VertexBase, typename EdgeBase>
 struct Graph {

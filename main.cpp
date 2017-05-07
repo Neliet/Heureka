@@ -23,18 +23,20 @@ int main()
         std::cout << edge->name <<std::endl;
     }
     */
-    std::cout<< "A*"<<std::endl;
+    std::cout<< "A* !"<<std::endl;
     dijkstraSearch<Map::VertexType> search2;
     search2(*manhattan[{1, 5}]);
     Map::Path path2 = manhattan.makePath();
-
+    std::cout<< "solution found"<<std::endl;
     for (auto it = path2.begin(); it+1 != path2.end(); ++it) {
+        std::cout<< "iteration"<<std::endl;
         auto next = it+1;
         auto edge = std::find_if((*next)->edges.begin(), (*next)->edges.end(),
                      [it](const Map::EdgeType& e) {
                         return e.end == (*it)->selfIterator();
                      });
         std::cout << edge->name << std::endl;
+
     }
 
 
