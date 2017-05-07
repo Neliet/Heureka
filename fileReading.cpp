@@ -14,7 +14,7 @@ Map readMap(const std::string& filename) {
 	std::unordered_set<Map::VertexBaseType> crossingSet;
 
 	while (file) {
-		int x1, x2, y1, y2;
+		double x1, x2, y1, y2;
 		std::string name;
 		file >> x1 >> y1 >> name >> x2 >> y2;
 		crossingSet.insert(Crossing{x1, y1});
@@ -28,7 +28,7 @@ Map readMap(const std::string& filename) {
 	file.seekg(0);
 
 	while (file) {
-		int x1, x2, y1, y2;
+		double x1, x2, y1, y2;
 		std::string name;
 		file >> x1 >> y1 >> name >> x2 >> y2;
 
@@ -53,13 +53,13 @@ KnowledgeBase readKnowledgeBase(const std::string& filename) {
 	std::unordered_set<KnowledgeBase::VertexBaseType> clauseSet;
 
 	while (file) {
-		std::string s;
-		std::getline(file, s);
+		std::string line;
+		std::getline(file, line);
 		auto pos = line.find("if");
 
-		clauseSet.insert(Clause(s.substr(0, pos)));
+		clauseSet.insert(Clause(line.substr(0, pos)));
 		if (pos != std::string::npos) {
-			clauseSet.insert(Clause(s.substr(pos+2)));
+			clauseSet.insert(Clause(line.substr(pos+2)));
 		}
 	}
 
@@ -72,17 +72,17 @@ KnowledgeBase readKnowledgeBase(const std::string& filename) {
 	file.seekg(0);
 
 	while (file) {
-		std::string s;
-		std::getline(file, s);
+		std::string line;
+		std::getline(file, line);
 		auto pos = line.find("if");
 
 		if (pos != std::string::npos) {
-			clauseSet.insert(Clause(s.substr(pos+2)));
+			clauseSet.insert(Clause(line.substr(pos+2)));
 		}
 
-		auto i1 = std::distance(clauses.begin(), std::find(clauses.begin(), clauses.end(), Clause(s.substr(0, pos))));
+		auto i1 = std::distance(clauses.begin(), std::find(clauses.begin(), clauses.end(), Clause(line.substr(0, pos))));
 		if (pos != std::string::npos) {
-			auto i2 = std::distance(clauses.begin(), std::find(clauses.begin(), clauses.end(), Clause(s.substr(pos+2))));
+			auto i2 = std::distance(clauses.begin(), std::find(clauses.begin(), clauses.end(), Clause(line.substr(pos+2))));
 			ifRules[i1].emplace_back(IfRule(), i2);
 		} else {
 			ifRules[i1].emplace_back(IfRule(), clauses.size()-1);

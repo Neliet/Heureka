@@ -5,7 +5,6 @@
 #include <string>
 
 struct Crossing {
-	operator=(Crossing&& other) { x = other.x; y = other.y; }
 	double x;
 	double y;
 };
@@ -26,8 +25,8 @@ struct hash<Crossing> {
 
 struct Road
 {
-	const std::string name;
-	const float distance;
+	std::string name;
+	float distance;
 };
 
 #endif // CROSSING_H_INCLUDED
