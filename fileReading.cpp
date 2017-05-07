@@ -83,9 +83,9 @@ KnowledgeBase readKnowledgeBase(const std::string& filename) {
 		auto i1 = std::distance(clauses.begin(), std::find(clauses.begin(), clauses.end(), Clause(line.substr(0, pos))));
 		if (pos != std::string::npos) {
 			auto i2 = std::distance(clauses.begin(), std::find(clauses.begin(), clauses.end(), Clause(line.substr(pos+2))));
-			ifRules[i1].emplace_back(IfRule(), i2);
+			ifRules[i1].emplace_back(IfRule{line}, i2);
 		} else {
-			ifRules[i1].emplace_back(IfRule(), clauses.size()-1);
+			ifRules[i1].emplace_back(IfRule{line}, clauses.size()-1);
 		}
 	}
 

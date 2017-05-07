@@ -3,6 +3,7 @@
 
 #include <unordered_set>
 #include <string>
+#include "graph.h"
 
 using Literal = std::string;
 
@@ -41,5 +42,7 @@ struct IfRule {
 	const std::string name;
 	const double weight = 1;
 };
+
+using KnowledgeBase = Graph<Clause, IfRule>;
 
 #endif // CLAUSE_H_INCLUDED

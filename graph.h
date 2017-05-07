@@ -3,6 +3,7 @@
 
 #include <vector>
 #include <utility>
+#include <ostream>
 
 template<typename Base, typename VertexIterator>
 struct Edge : public Base {

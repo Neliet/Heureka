@@ -3,6 +3,7 @@
 
 #include <functional>
 #include <string>
+#include "graph.h"
 
 struct Crossing {
 	double x;
@@ -28,5 +29,9 @@ struct Road
 	std::string name;
 	double weight;
 };
+
+using Map = Graph<Crossing, Road>;
+
+std::ostream& operator<<(std::ostream& os, const Map::Path& path);
 
 #endif // CROSSING_H_INCLUDED
