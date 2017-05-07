@@ -25,13 +25,8 @@ struct hash<Crossing> {
 
 struct Road
 {
-<<<<<<< HEAD
 	const std::string name;
 	const double weight;
-=======
-	std::string name;
-	float distance;
->>>>>>> origin/uh
 };
 
 #endif // CROSSING_H_INCLUDED
