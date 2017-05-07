@@ -25,6 +25,8 @@ struct Vertex : public Base {
 	auto successors() -> const std::vector<IteratorType>&;
 	bool isStart();
 	auto selfIterator() const -> IteratorType;
+	void setParent(const Vertex& parent);
+	auto edgeTo(const Vertex& successor) -> const EdgeType&;
 
 	const EdgeSetType edges;
 	IteratorType parent;

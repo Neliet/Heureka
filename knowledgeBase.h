@@ -32,6 +32,7 @@ struct hash<Clause> {
 
 struct IfRule {
 	const std::string name;
+	const double weight = 1;
 };
 
 #endif // CLAUSE_H_INCLUDED

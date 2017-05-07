@@ -1,5 +1,6 @@
 #include <algorithm>
 #include <iterator>
+#include <stdexcept>
 
 template<typename Base, typename VertexIterator>
 Edge<Base, VertexIterator>::Edge(Base base, VertexIterator end)
@@ -27,6 +28,23 @@ bool Vertex<Base, EdgeBase>::isStart() {
 template<typename Base, typename EdgeBase>
 auto Vertex<Base, EdgeBase>::selfIterator() const -> IteratorType {
 	return graph[*this];
+}
+
+template<typename Base, typename EdgeBase>
+void Vertex<Base, EdgeBase>::setParent(const Vertex& parent) {
+	parent = parent.selfIterator();
+	weight = parent.weight + parent.edgeTo(selfIterator()).weight;
+}
+
+template<typename Base, typename EdgeBase>
+auto Vertex<Base, EdgeBase>::edgeTo(const IteratorType& successor) -> const EdgeType& {
+	for (auto& it : edges) {
+		if (it.end == successor) {
+			return it;
+		}
+	}
+
+	throw std::runtime_error("[Vertex::edgeTo] not a successor");
 }
 
 namespace std {
