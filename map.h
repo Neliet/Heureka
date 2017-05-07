@@ -2,10 +2,12 @@
 #define CROSSING_H_INCLUDED
 
 #include <functional>
+#include <string>
 
 struct Crossing {
-	const double x;
-	const double y;
+	operator=(Crossing&& other) { x = other.x; y = other.y; }
+	double x;
+	double y;
 };
 
 bool operator==(Crossing lhs, Crossing rhs);
@@ -21,5 +23,11 @@ struct hash<Crossing> {
 	}
 };
 }
+
+struct Road
+{
+	const std::string name;
+	const float distance;
+};
 
 #endif // CROSSING_H_INCLUDED
