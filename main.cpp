@@ -5,40 +5,21 @@
 
 int main()
 {
-	//Map manhattan = readMap("data/manhattan.txt");
-	//depthfirstSearch<Map::VertexType> search1;
+	Map manhattan = readMap("data/manhattan.txt");
+	manhattan.startAt({0, 2});
 
-	//manhattan.startAt({0, 2});
-	/*
-	std::cout<< "RBFS"<<std::endl;
-	search1(*manhattan[{1, 5}]);
-	Map::Path path1 = manhattan.makePath();
-
-	for (auto it = path1.begin(); it+1 != path1.end(); ++it) {
-		auto next = it+1;
-		auto edge = std::find_if((*next)->edges.begin(), (*next)->edges.end(),
-					 [it](const Map::EdgeType& e) {
-						return e.end == (*it)->selfIterator();
-					 });
-		std::cout << edge->name <<std::endl;
-	}
-	*//*
-	std::cout<< "A* !"<<std::endl;
-	dijkstraSearch<Map::VertexType> search2;
-	search2(*manhattan[{1, 5}]);
-	auto path2 = manhattan.makePath();
-	std::cout << "solution found\n";
-	std::cout << path2;
-	std::string a;
-	std::cin >> a;
-	return search2(*manhattan[{0, 0}]);
-*/
-
-	KnowledgeBase kb = readKnowledgeBase("data/KB1.txt");
-	depthfirstSearch<KnowledgeBase::VertexType> search;
-
-	kb.startAt("a");
-
-	return search(*kb[""]);
+	depthfirstSearch<Map::VertexType>{}(*manhattan[{1, 5}]);
+	std::cout << "Map RBFS\n" << manhattan.makePath();
 	
+	dijkstraSearch<Map::VertexType>{}(*manhattan[{1, 5}]);
+	std::cout << "Map A*\n" << manhattan.makePath();
+
+	// KnowledgeBase kb = readKnowledgeBase("data/KB1.txt");
+	// kb.startAt("a");
+
+	// depthfirstSearch<KnowledgeBase::VertexType>{}(*kb[""]);
+	// std::cout << "KnowledgeBase DFS\n" << kb.makePath();
+
+	std::string pause;
+	std::cin >> pause;
 }

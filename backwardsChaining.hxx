@@ -5,19 +5,14 @@
 
 template<typename State, typename Frontier>
 bool backwardsChaining<State, Frontier>::operator()(State& initialState) {
-
-std::cout << "a\n";
 	Frontier frontier;
-std::cout << "b\n";
 	initialState.parent = initialState.selfIterator();
-std::cout << "c\n";
 	frontier.push(initialState);
-std::cout << "d\n";
 
 	std::unordered_set<State> explored;
-std::cout << "e\n";
+// std::cout << "e\n";
 	explored.insert(initialState);
-std::cout << "f\n";
+// std::cout << "f\n";
 
 	while (!frontier.empty()) {
 		auto current = frontier.top();

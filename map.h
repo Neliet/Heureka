@@ -32,6 +32,6 @@ struct Road
 
 using Map = Graph<Crossing, Road>;
 
-std::ostream& operator<<(std::ostream& os, const Map::Path& path);
+std::ostream& operator<<(std::ostream& os, Map::Path&& path);
 
 #endif // CROSSING_H_INCLUDED
