@@ -9,6 +9,10 @@ Clause::Clause(const std::string& str) {
 	}
 }
 
+Clause::Clause(const char* s)
+: Clause(std::string(s)) {
+}
+
 bool operator==(Clause lhs, Clause rhs) {
 	return lhs.literals == rhs.literals;
 }

@@ -45,6 +45,7 @@ Map readMap(const std::string& filename) {
 
 KnowledgeBase readKnowledgeBase(const std::string& filename) {
 	std::ifstream file(filename);
+	std::string line;
 
 	if(!file) {
 		throw std::runtime_error("File failed to open.");
@@ -52,9 +53,7 @@ KnowledgeBase readKnowledgeBase(const std::string& filename) {
 
 	std::unordered_set<KnowledgeBase::VertexBaseType> clauseSet;
 
-	while (file) {
-		std::string line;
-		std::getline(file, line);
+	while (std::getline(file, line)) {
 		auto pos = line.find("if");
 
 		clauseSet.insert(Clause(line.substr(0, pos)));
@@ -64,16 +63,14 @@ KnowledgeBase readKnowledgeBase(const std::string& filename) {
 	}
 
 	std::vector<KnowledgeBase::VertexBaseType> clauses(clauseSet.begin(), clauseSet.end());
-	clauses.push_back(Clause()); // Add the empty clause
+	clauses.push_back(Clause("")); // Add the empty clause
 	using Edge = std::pair<KnowledgeBase::EdgeBaseType, std::vector<KnowledgeBase::VertexBaseType>::difference_type>;
 	std::vector<std::vector<Edge>> ifRules(clauses.size());
 
 	file.clear();
 	file.seekg(0);
 
-	while (file) {
-		std::string line;
-		std::getline(file, line);
+	while (std::getline(file, line)) {
 		auto pos = line.find("if");
 
 		if (pos != std::string::npos) {
