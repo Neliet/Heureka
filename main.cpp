@@ -5,10 +5,10 @@
 
 int main()
 {
-	Map manhattan = readMap("data/manhattan.txt");
+	//Map manhattan = readMap("data/manhattan.txt");
 	//depthfirstSearch<Map::VertexType> search1;
 
-	manhattan.startAt({0, 2});
+	//manhattan.startAt({0, 2});
 	/*
 	std::cout<< "RBFS"<<std::endl;
 	search1(*manhattan[{1, 5}]);
@@ -22,7 +22,7 @@ int main()
 					 });
 		std::cout << edge->name <<std::endl;
 	}
-	*/
+	*//*
 	std::cout<< "A* !"<<std::endl;
 	dijkstraSearch<Map::VertexType> search2;
 	search2(*manhattan[{1, 5}]);
@@ -32,13 +32,13 @@ int main()
 	std::string a;
 	std::cin >> a;
 	return search2(*manhattan[{0, 0}]);
+*/
 
-	/*
-	Map kb = readMap("data/KB1.txt");
-	depthfirstSearch<Map::VertexType> search;
+	KnowledgeBase kb = readKnowledgeBase("data/KB1.txt");
+	depthfirstSearch<KnowledgeBase::VertexType> search;
 
-	kb[{a}]->isTrue = true;
+	kb.startAt("a");
 
-	return search(*kb[{}]);
-	*/
+	return search(*kb[""]);
+	
 }

@@ -10,6 +10,7 @@ using Literal = std::string;
 struct Clause {
     Clause() = default;
 	Clause(const std::string& s);
+	Clause(const char* s);
 	std::unordered_set<Literal> literals;
 };
 
